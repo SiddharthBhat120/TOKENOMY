@@ -1,0 +1,23 @@
+# docker compose up  ->  dashboard at http://localhost:8000
+services:
+  tokensaver:
+    build: .
+    ports: ["8000:8000"]
+    env_file: [{ path: .env, required: false }]
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434/v1
+    volumes: [tokensaver-state:/app/state]
+    depends_on: [ollama]
+
+  # free local models; pull them once with:
+  #   docker compose exec ollama ollama pull gemma3:4b
+  #   docker compose exec ollama ollama pull gemma3:12b
+  ollama:
+    image: ollama/ollama:latest
+    volumes: [ollama-models:/root/.ollama]
+    # uncomment to use an NVIDIA GPU
+    # deploy: { resources: { reservations: { devices: [{ driver: nvidia, count: all, capabilities: [gpu] }] } } }
+
+volumes:
+  tokensaver-state:
+  ollama-models:

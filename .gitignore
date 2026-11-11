@@ -1,0 +1,12 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.db
+*.db-journal
+data/*.npy
+node_modules/
+dashboard/dist/
+.pytest_cache/
+benchmark/raw/

@@ -1,0 +1,306 @@
+prompt,label
+"Thanks, that's all!",0
+Compare Kafka and RabbitMQ for building a ride-hailing backend; recommend one with justification.,1
+Analyze the pros and cons of REST versus microservices for a startup.,1
+What payment methods do you accept?,0
+Give me a synonym for 'brave'.,0
+Design a scalable payments ledger that handles 100 thousand requests per second and explain the trade-offs.,1
+How do I contact customer care?,0
+Compare Kafka and RabbitMQ for building a payments ledger; recommend one with justification.,1
+Compare monolith and GraphQL for building a payments ledger; recommend one with justification.,1
+Translate 'computer' to Kannada.,0
+Explain step by step how a B-tree insert works and give its time complexity.,1
+Design a scalable ride-hailing backend that handles 7 thousand requests per second and explain the trade-offs.,1
+Optimize this SQL query and explain why it is slow: SELECT * FROM orders o JOIN users u ON o.user_id = u.id WHERE u.city LIKE '%Karwar%' ORDER BY o.created_at;,1
+How long does delivery take to Mangaluru?,0
+What does CPU stand for?,0
+Design a scalable chat app that handles 7 thousand requests per second and explain the trade-offs.,1
+"Write a Python function that implements an LRU cache, include type hints and unit tests.",1
+Design a scalable URL shortener that handles 15 thousand requests per second and explain the trade-offs.,1
+Compare PostgreSQL and microservices for building a payments ledger; recommend one with justification.,1
+Is 2 an even number?,0
+What is 12 plus 30?,0
+Convert 12 km to miles.,0
+Convert 9 km to miles.,0
+Translate 'book' to Spanish.,0
+Define cloud computing in one sentence.,0
+"A train leaves at 15:00 at 80 km/h, another at 4:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+What is 25 plus 9?,0
+What does GST stand for?,0
+Analyze the pros and cons of monolith versus microservices for a startup.,1
+What is the opposite of 'bright'?,0
+"Draft a database schema for e-commerce cart with tables, keys, indexes and justify normalization choices.",1
+Design a scalable payments ledger that handles 42 thousand requests per second and explain the trade-offs.,1
+Who wrote 'Wings of Fire'?,0
+Design a scalable ride-hailing backend that handles 2 thousand requests per second and explain the trade-offs.,1
+How long does delivery take to Chennai?,0
+Compare PostgreSQL and GraphQL for building a hospital records system; recommend one with justification.,1
+Translate 'school' to Kannada.,0
+Analyze the pros and cons of Kafka versus GraphQL for a startup.,1
+What is the plural of 'water'?,0
+Evaluate the ethical implications of facial recognition in public spaces and propose a policy framework.,1
+Convert 42 km to miles.,0
+"A train leaves at 12:00 at 80 km/h, another at 5:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+What is the opposite of 'happy'?,0
+Analyze the pros and cons of REST versus RabbitMQ for a startup.,1
+Give me a synonym for 'bright'.,0
+Compare React and RabbitMQ for building a chat app; recommend one with justification.,1
+What time zone is India in?,0
+Design a scalable chat app that handles 15 thousand requests per second and explain the trade-offs.,1
+What is the plural of 'river'?,0
+What is 70 plus 30?,0
+Write a regex that validates an email address and explain every part; list edge cases it must reject.,1
+What is the opposite of 'brave'?,0
+What is 70 plus 4?,0
+Analyze the pros and cons of PostgreSQL versus MongoDB for a startup.,1
+Compare React and microservices for building a ride-hailing backend; recommend one with justification.,1
+What time zone is Nepal in?,0
+What does NASA stand for?,0
+Translate 'computer' to Spanish.,0
+Design a scalable e-commerce cart that handles 15 thousand requests per second and explain the trade-offs.,1
+What is 70 plus 9?,0
+Convert 100 km to miles.,0
+Spell 'mouse' backwards.,0
+What does PDF stand for?,0
+Give me a synonym for 'ancient'.,0
+Compare React and Angular for building a hospital records system; recommend one with justification.,1
+What does UPI stand for?,0
+Explain step by step how quicksort works and give its time complexity.,1
+Analyze the pros and cons of React versus MongoDB for a startup.,1
+Optimize this SQL query and explain why it is slow: SELECT * FROM orders o JOIN users u ON o.user_id = u.id WHERE u.city LIKE '%Chennai%' ORDER BY o.created_at;,1
+Define inflation in one sentence.,0
+Compare React and MongoDB for building a chat app; recommend one with justification.,1
+Design a scalable ride-hailing backend that handles 15 thousand requests per second and explain the trade-offs.,1
+Write a 500-word essay on facial recognition in public spaces with at least three cited arguments and a counter-argument.,1
+"Draft a database schema for chat app with tables, keys, indexes and justify normalization choices.",1
+Summarize in one line: 'the quick brown fox jumps'.,0
+Critique this business model: drone delivery of medicines. Identify hidden risks and suggest experiments to validate it.,1
+What does HTTP stand for?,0
+Is tomato a fruit or a vegetable?,0
+Is 42 an even number?,0
+How do I reset my password?,0
+Translate 'book' to Japanese.,0
+What is the plural of 'book'?,0
+"Implement quicksort in TypeScript without using libraries, and analyze its complexity.",1
+Translate 'mouse' to Japanese.,0
+Fix the spelling: 'recieve the pakage'.,0
+Optimize this SQL query and explain why it is slow: SELECT * FROM orders o JOIN users u ON o.user_id = u.id WHERE u.city LIKE '%Pune%' ORDER BY o.created_at;,1
+Design a scalable payments ledger that handles 2 thousand requests per second and explain the trade-offs.,1
+What is the plural of 'computer'?,0
+Translate 'friend' to Hindi.,0
+Write a regex that validates an IPv6 address and explain every part; list edge cases it must reject.,1
+Say hello in Kannada.,0
+Design a scalable chat app that handles 12 thousand requests per second and explain the trade-offs.,1
+Compare Kafka and Angular for building a payments ledger; recommend one with justification.,1
+Good morning!,0
+"Explain why planes generate lift happens, at the level of a physics undergraduate, with equations.",1
+Fix the spelling: 'seperate adress'.,0
+Derive the formula for the sum of a geometric series and prove it by induction.,1
+Give me 3 names for a parrot.,0
+"A train leaves at 2:00 at 80 km/h, another at 5:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Give me a synonym for 'quiet'.,0
+What is 12 plus 11?,0
+What is 25 plus 4?,0
+Say hello in Hindi.,0
+Compare REST and GraphQL for building a hospital records system; recommend one with justification.,1
+Who wrote '1984'?,0
+Explain step by step how backpropagation works and give its time complexity.,1
+Write a 500-word essay on AI in hiring with at least three cited arguments and a counter-argument.,1
+What is 12 plus 4?,0
+Compare Kafka and GraphQL for building a e-commerce cart; recommend one with justification.,1
+Spell 'water' backwards.,0
+Design a scalable ride-hailing backend that handles 12 thousand requests per second and explain the trade-offs.,1
+Compare REST and microservices for building a hospital records system; recommend one with justification.,1
+Translate 'river' to Japanese.,0
+Translate 'computer' to Tamil.,0
+Spell 'school' backwards.,0
+Is mango a fruit or a vegetable?,0
+"Write a Python function that finds the longest palindromic substring, include type hints and unit tests.",1
+"A train leaves at 9:00 at 80 km/h, another at 4:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Design a scalable chat app that handles 2 thousand requests per second and explain the trade-offs.,1
+Analyze the pros and cons of React versus Angular for a startup.,1
+"Write a Python function that validates a Sudoku board, include type hints and unit tests.",1
+Compare React and RabbitMQ for building a e-commerce cart; recommend one with justification.,1
+Design a scalable payments ledger that handles 15 thousand requests per second and explain the trade-offs.,1
+What are your support hours?,0
+Is 7 an even number?,0
+"A train leaves at 2:00 at 80 km/h, another at 3:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+What is the capital of Egypt?,0
+Design a scalable hospital records system that handles 2 thousand requests per second and explain the trade-offs.,1
+Design a scalable e-commerce cart that handles 7 thousand requests per second and explain the trade-offs.,1
+Design a scalable URL shortener that handles 42 thousand requests per second and explain the trade-offs.,1
+Say hello in Tamil.,0
+What is the opposite of 'fast'?,0
+Design a scalable ride-hailing backend that handles 9 thousand requests per second and explain the trade-offs.,1
+Spell 'book' backwards.,0
+"Implement backpropagation in TypeScript without using libraries, and analyze its complexity.",1
+Analyze the pros and cons of Kafka versus MongoDB for a startup.,1
+Prove that the square root of 3 is irrational.,1
+Explain step by step how Dijkstra's algorithm works and give its time complexity.,1
+Give me 3 names for a cat.,0
+Translate 'mouse' to Spanish.,0
+"A train leaves at 7:00 at 80 km/h, another at 5:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Compare monolith and microservices for building a chat app; recommend one with justification.,1
+What does URL stand for?,0
+Define API in one sentence.,0
+What colour is a ripe apple?,0
+Prove that the square root of 2 is irrational.,1
+"Create a project plan for migrating a monolith to microservices, with risks, milestones and rollback strategy.",1
+Who wrote 'Hamlet'?,0
+What is the plural of 'mouse'?,0
+Write a 500-word essay on social media for teenagers with at least three cited arguments and a counter-argument.,1
+What colour is a ripe banana?,0
+Make this title case: 'the quick brown fox jumps'.,0
+Evaluate the ethical implications of social media for teenagers and propose a policy framework.,1
+"A train leaves at 12:00 at 80 km/h, another at 4:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Analyze the pros and cons of Kafka versus microservices for a startup.,1
+"A train leaves at 9:00 at 80 km/h, another at 3:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Analyze the pros and cons of monolith versus Angular for a startup.,1
+"Draft a database schema for URL shortener with tables, keys, indexes and justify normalization choices.",1
+What is 3 plus 11?,0
+Compare PostgreSQL and RabbitMQ for building a hospital records system; recommend one with justification.,1
+What is the capital of Kenya?,0
+What time zone is Canada in?,0
+Optimize this SQL query and explain why it is slow: SELECT * FROM orders o JOIN users u ON o.user_id = u.id WHERE u.city LIKE '%Mangaluru%' ORDER BY o.created_at;,1
+"A train leaves at 100:00 at 80 km/h, another at 3:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Say hello in Spanish.,0
+"A train leaves at 42:00 at 80 km/h, another at 5:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+"A train leaves at 2:00 at 80 km/h, another at 4:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+What is the capital of India?,0
+Where can I download my invoice?,0
+Write a 500-word essay on remote work with at least three cited arguments and a counter-argument.,1
+"Debug this code and explain the root cause:
+```python
+def avg(xs):
+    return sum(xs) / len(xs) if xs else xs[0]
+```",1
+Make this title case: 'our sale ends on sunday'.,0
+Design a scalable hospital records system that handles 42 thousand requests per second and explain the trade-offs.,1
+"Draft a database schema for ride-hailing backend with tables, keys, indexes and justify normalization choices.",1
+Convert 7 km to miles.,0
+Analyze the pros and cons of Kafka versus Angular for a startup.,1
+Spell 'computer' backwards.,0
+"A train leaves at 42:00 at 80 km/h, another at 4:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+How long does delivery take to Delhi?,0
+Translate 'computer' to Hindi.,0
+What is the plural of 'school'?,0
+Design a scalable URL shortener that handles 7 thousand requests per second and explain the trade-offs.,1
+"A train leaves at 100:00 at 80 km/h, another at 4:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Analyze the pros and cons of React versus GraphQL for a startup.,1
+Explain step by step how the Raft consensus protocol works and give its time complexity.,1
+Design a scalable URL shortener that handles 100 thousand requests per second and explain the trade-offs.,1
+Rewrite politely: 'send it now'.,0
+Analyze the pros and cons of monolith versus GraphQL for a startup.,1
+Who wrote 'The Guide'?,0
+Analyze the pros and cons of REST versus GraphQL for a startup.,1
+What is the plural of 'friend'?,0
+"Draft a database schema for payments ledger with tables, keys, indexes and justify normalization choices.",1
+Compare REST and Angular for building a hospital records system; recommend one with justification.,1
+Write a regex that validates an Indian PAN number and explain every part; list edge cases it must reject.,1
+Compare PostgreSQL and MongoDB for building a URL shortener; recommend one with justification.,1
+Spell 'child' backwards.,0
+"Given a probability of 2% per day, what is the chance of at least one event in a week? Explain.",1
+What is the capital of Brazil?,0
+Compare REST and GraphQL for building a ride-hailing backend; recommend one with justification.,1
+Design a scalable e-commerce cart that handles 2 thousand requests per second and explain the trade-offs.,1
+"Given a probability of 10% per day, what is the chance of at least one event in a week? Explain.",1
+Compare monolith and RabbitMQ for building a chat app; recommend one with justification.,1
+"Given a probability of 5% per day, what is the chance of at least one event in a week? Explain.",1
+Design a scalable hospital records system that handles 9 thousand requests per second and explain the trade-offs.,1
+Prove that the square root of 7 is irrational.,1
+Analyze the pros and cons of PostgreSQL versus GraphQL for a startup.,1
+Is banana a fruit or a vegetable?,0
+Translate 'book' to French.,0
+Analyze the pros and cons of React versus microservices for a startup.,1
+Give me a synonym for 'happy'.,0
+What is 25 plus 30?,0
+Convert 2 km to miles.,0
+How do I change my email address?,0
+Can I cancel my order?,0
+Compare PostgreSQL and microservices for building a hospital records system; recommend one with justification.,1
+Define a noun in one sentence.,0
+Who wrote 'Malgudi Days'?,0
+What is 3 plus 9?,0
+What is 25 plus 11?,0
+Design a scalable chat app that handles 42 thousand requests per second and explain the trade-offs.,1
+Summarize in one line: 'our sale ends on sunday'.,0
+What colour is a ripe mango?,0
+Design a scalable URL shortener that handles 2 thousand requests per second and explain the trade-offs.,1
+Critique this business model: a marketplace for used textbooks. Identify hidden risks and suggest experiments to validate it.,1
+Compare monolith and Angular for building a chat app; recommend one with justification.,1
+How long does delivery take to Karwar?,0
+Design a scalable hospital records system that handles 12 thousand requests per second and explain the trade-offs.,1
+"Write a Python function that merges overlapping intervals, include type hints and unit tests.",1
+Evaluate the ethical implications of remote work and propose a policy framework.,1
+What is the opposite of 'ancient'?,0
+Compare monolith and Angular for building a hospital records system; recommend one with justification.,1
+"A train leaves at 15:00 at 80 km/h, another at 5:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Fix the spelling: 'definately tommorow'.,0
+Spell 'river' backwards.,0
+Design a scalable payments ledger that handles 9 thousand requests per second and explain the trade-offs.,1
+Analyze the pros and cons of React versus RabbitMQ for a startup.,1
+Spell 'friend' backwards.,0
+What is the capital of Nepal?,0
+What colour is a ripe tomato?,0
+Design a scalable hospital records system that handles 7 thousand requests per second and explain the trade-offs.,1
+"Explain why the sky appears blue happens, at the level of a physics undergraduate, with equations.",1
+Convert 15 km to miles.,0
+Compare React and Angular for building a e-commerce cart; recommend one with justification.,1
+What is the capital of Japan?,0
+Evaluate the ethical implications of AI in hiring and propose a policy framework.,1
+"Explain why ice floats on water happens, at the level of a physics undergraduate, with equations.",1
+What is the opposite of 'quiet'?,0
+Translate 'child' to Japanese.,0
+Translate 'friend' to German.,0
+Analyze the pros and cons of REST versus Angular for a startup.,1
+What time zone is Kenya in?,0
+Define photosynthesis in one sentence.,0
+"Implement the Raft consensus protocol in TypeScript without using libraries, and analyze its complexity.",1
+Say hello in French.,0
+Is apple a fruit or a vegetable?,0
+What is 70 plus 11?,0
+Say hello in German.,0
+Design a scalable ride-hailing backend that handles 100 thousand requests per second and explain the trade-offs.,1
+Design a scalable hospital records system that handles 15 thousand requests per second and explain the trade-offs.,1
+"A train leaves at 7:00 at 80 km/h, another at 4:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+Optimize this SQL query and explain why it is slow: SELECT * FROM orders o JOIN users u ON o.user_id = u.id WHERE u.city LIKE '%Delhi%' ORDER BY o.created_at;,1
+Compare React and RabbitMQ for building a hospital records system; recommend one with justification.,1
+What is the capital of Canada?,0
+Is there a mobile app?,0
+Give me a synonym for 'fast'.,0
+Translate 'water' to Kannada.,0
+What time zone is Brazil in?,0
+"Refactor this JavaScript to be testable and explain each change:
+function f(a){let r=[];for(var i=0;i<a.length;i++){if(a[i]%2==0)r.push(a[i]*2)}return r}",1
+What time zone is Japan in?,0
+What is the plural of 'child'?,0
+Design a scalable URL shortener that handles 12 thousand requests per second and explain the trade-offs.,1
+What time zone is Egypt in?,0
+"A train leaves at 100:00 at 80 km/h, another at 5:30 at 100 km/h on the same track. When does the second catch up? Show your working.",1
+"Write a Python function that parses a CSV with quoted commas, include type hints and unit tests.",1
+Prove that the square root of 5 is irrational.,1
+Say hello in Japanese.,0
+Write a regex that validates a strong password and explain every part; list edge cases it must reject.,1
+"Draft a database schema for hospital records system with tables, keys, indexes and justify normalization choices.",1
+Critique this business model: a subscription for home-cooked tiffins. Identify hidden risks and suggest experiments to validate it.,1
+Is 12 an even number?,0
+Give me 3 names for a dog.,0
+Translate 'child' to Tamil.,0
+Compare monolith and RabbitMQ for building a ride-hailing backend; recommend one with justification.,1
+Compare Kafka and GraphQL for building a hospital records system; recommend one with justification.,1
+Is 100 an even number?,0
+Design a scalable e-commerce cart that handles 100 thousand requests per second and explain the trade-offs.,1
+Is 15 an even number?,0
+Translate 'water' to German.,0
+Translate 'school' to Hindi.,0
+"Implement Dijkstra's algorithm in TypeScript without using libraries, and analyze its complexity.",1
+Is 9 an even number?,0
+Translate 'water' to Tamil.,0
+Translate 'friend' to Japanese.,0
+Analyze the pros and cons of PostgreSQL versus microservices for a startup.,1
+Define RAM in one sentence.,0
+Design a scalable e-commerce cart that handles 12 thousand requests per second and explain the trade-offs.,1
+How long does delivery take to Pune?,0
+What is 3 plus 30?,0
+Define bandwidth in one sentence.,0
+"Implement a B-tree insert in TypeScript without using libraries, and analyze its complexity.",1
