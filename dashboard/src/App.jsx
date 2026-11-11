@@ -46,7 +46,7 @@ export default function App() {
             <svg viewBox="0 0 32 32"><path d="M8 16.5l5 5L24 10.5" /></svg>
           </span>
           <span>
-            <b>TokenSaver</b>
+            <b>Tokenomy</b>
             <small>LLM gateway · cost control</small>
           </span>
         </a>
@@ -74,7 +74,7 @@ export default function App() {
       </main>
 
       <footer className="foot">
-        <span>Drop-in: point the <code>openai</code> SDK at <code>/v1</code> and use model <code>tokensaver/auto</code>.</span>
+        <span>Drop-in: point the <code>openai</code> SDK at <code>/v1</code> and use model <code>tokenomy/auto</code>.</span>
         <span>
           {config && <>cheap <code>{config.cheap_model}</code> · strong <code>{config.strong_model}</code> · router {config.router_mode} · threshold {config.semantic_threshold}</>}
         </span>

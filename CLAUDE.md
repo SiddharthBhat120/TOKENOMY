@@ -1,11 +1,11 @@
-# TokenSaver
+# Tokenomy
 
 OpenAI-compatible LLM gateway (Python/FastAPI) that sits between apps and LLM providers
 (Ollama locally, OpenRouter in the cloud) and cuts cost with exact caching, semantic caching
 and complexity-based model routing. A React dashboard shows the savings.
 
 ## Stack
-- FastAPI + httpx (async) — `src/tokensaver/`
+- FastAPI + httpx (async) — `src/tokenomy/`
 - SQLite (request log, exact cache, semantic cache) — `db.py`
 - sentence-transformers `all-MiniLM-L6-v2` embeddings, NumPy cosine search — `embeddings.py`, `semantic.py`
 - scikit-learn logistic-regression router on embeddings — `router.py`, `scripts/train_router.py`
@@ -14,7 +14,7 @@ and complexity-based model routing. A React dashboard shows the savings.
 
 ## Layout
 ```
-src/tokensaver/
+src/tokenomy/
   app.py        FastAPI routes: /v1/chat/completions, /stats*, /requests, /router/explain, /benchmark, /dashboard
   gateway.py    pipeline: exact cache -> semantic cache -> router -> provider -> log
   cache.py      exact-cache key + "is this request cacheable?" (temperature rule)
@@ -39,7 +39,7 @@ tests/          pytest, fully offline (fake upstream + hash embedder)
 ```
 python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
 .venv\Scripts\python -m pytest -q
-.venv\Scripts\python -m uvicorn tokensaver.app:app --app-dir src --port 8000
+.venv\Scripts\python -m uvicorn tokenomy.app:app --app-dir src --port 8000
 cd dashboard && npm install && npm run build      # or npm run dev (port 5173)
 python benchmark/run.py --limit 40                # quick benchmark
 ```

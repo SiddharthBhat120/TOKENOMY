@@ -17,8 +17,8 @@ from sklearn.model_selection import train_test_split
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from tokensaver.embeddings import MiniLMEmbedder  # noqa: E402
-from tokensaver.router import RuleScorer  # noqa: E402
+from tokenomy.embeddings import MiniLMEmbedder  # noqa: E402
+from tokenomy.router import RuleScorer  # noqa: E402
 
 
 def main() -> None:

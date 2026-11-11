@@ -25,7 +25,7 @@ function Receipt({ s }) {
       <div className="receipt-head">
         <span>RECEIPT</span><span>#{String(s.requests).padStart(5, '0')}</span>
       </div>
-      <div className="line"><span>Without TokenSaver</span><span>{usd(s.cost_without_tokensaver_usd)}</span></div>
+      <div className="line"><span>Without Tokenomy</span><span>{usd(s.cost_without_tokenomy_usd)}</span></div>
       <div className="line"><span>You actually paid</span><span>{usd(s.total_cost_usd)}</span></div>
       <div className="line dim"><span>Exact cache hits</span><span>{s.exact_hits}</span></div>
       <div className="line dim"><span>Smart cache hits</span><span>{s.semantic_hits}</span></div>
@@ -61,7 +61,7 @@ export default function Overview({ tick }) {
       .catch((e) => setErr(e.message))
   }, [tick, bucket])
 
-  if (err) return <Empty title="Can't reach the gateway" body={<>Start it with <code>uvicorn tokensaver.app:app --port 8000</code> and refresh.</>} />
+  if (err) return <Empty title="Can't reach the gateway" body={<>Start it with <code>uvicorn tokenomy.app:app --port 8000</code> and refresh.</>} />
   if (!s) return <div className="loading">Loading…</div>
   if (!s.requests) return <Empty title="No traffic yet" body={<>Send a request from the <a href="#playground">Playground</a>, run <code>python examples/client.py</code>, or run the benchmark.</>} />
 
@@ -77,7 +77,7 @@ export default function Overview({ tick }) {
       <section className="hero">
         <div>
           <p className="eyebrow">Money saved so far</p>
-          <h1><span className="mint">{usd(s.money_saved_usd)}</span> <small>of {usd(s.cost_without_tokensaver_usd)}</small></h1>
+          <h1><span className="mint">{usd(s.money_saved_usd)}</span> <small>of {usd(s.cost_without_tokenomy_usd)}</small></h1>
           <p className="lede">{pct(s.percent_saved)} cheaper than sending every request to the strong model, across {s.requests.toLocaleString()} requests.</p>
         </div>
         <Receipt s={s} />
@@ -95,7 +95,7 @@ export default function Overview({ tick }) {
       <section className="grid-2">
         <div className="panel span-2">
           <div className="panel-head">
-            <h3>Cost vs. cost without TokenSaver <em>cumulative</em></h3>
+            <h3>Cost vs. cost without Tokenomy <em>cumulative</em></h3>
             <div className="seg">
               {['minute', 'hour', 'day'].map((b) => <button key={b} className={b === bucket ? 'on' : ''} onClick={() => setBucket(b)}>{b}</button>)}
             </div>
@@ -112,8 +112,8 @@ export default function Overview({ tick }) {
               <Tooltip contentStyle={{ background: '#11161e', border: '1px solid #2a3240', borderRadius: 10 }}
                 labelFormatter={(t) => new Date(t * 1000).toLocaleString()} formatter={(v, n) => [usd(v), n]} />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Area type="monotone" dataKey="cum_baseline" name="Without TokenSaver" stroke={C.amber} fill="url(#gBase)" strokeWidth={2} />
-              <Area type="monotone" dataKey="cum_cost" name="With TokenSaver" stroke={C.mint} fill="url(#gCost)" strokeWidth={2.4} />
+              <Area type="monotone" dataKey="cum_baseline" name="Without Tokenomy" stroke={C.amber} fill="url(#gBase)" strokeWidth={2} />
+              <Area type="monotone" dataKey="cum_cost" name="With Tokenomy" stroke={C.mint} fill="url(#gCost)" strokeWidth={2.4} />
             </AreaChart>
           </ResponsiveContainer>
         </div>

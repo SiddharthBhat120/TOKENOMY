@@ -12,7 +12,7 @@ export default function Benchmark() {
 
   const cost = [
     { name: 'Strong model only', v: r.baseline.cost_usd, c: '#ffb547' },
-    { name: 'Through TokenSaver', v: r.tokensaver.cost_usd, c: '#3ddc97' },
+    { name: 'Through Tokenomy', v: r.tokenomy.cost_usd, c: '#3ddc97' },
   ]
   const q = r.quality || {}
   const projection = r.projection || null
@@ -26,10 +26,10 @@ export default function Benchmark() {
           <p className="lede">with <b>{pct(q.equal_or_better_pct)}</b> of sampled answers judged as good as the strong model's ({q.sample} judged by {q.judge}).</p>
         </div>
         <div className="bench-facts">
-          <div><span>Cache hit rate</span><b>{pct(r.tokensaver.cache_hit_rate)}</b></div>
-          <div><span>Routed to cheap model</span><b>{pct(r.tokensaver.routed_cheap_pct)}</b></div>
-          <div><span>Avg latency</span><b>{ms(r.tokensaver.avg_latency_ms)} <small>vs {ms(r.baseline.avg_latency_ms)}</small></b></div>
-          <div><span>Model calls avoided</span><b>{(r.baseline.calls - r.tokensaver.calls).toLocaleString()}</b></div>
+          <div><span>Cache hit rate</span><b>{pct(r.tokenomy.cache_hit_rate)}</b></div>
+          <div><span>Routed to cheap model</span><b>{pct(r.tokenomy.routed_cheap_pct)}</b></div>
+          <div><span>Avg latency</span><b>{ms(r.tokenomy.avg_latency_ms)} <small>vs {ms(r.baseline.avg_latency_ms)}</small></b></div>
+          <div><span>Model calls avoided</span><b>{(r.baseline.calls - r.tokenomy.calls).toLocaleString()}</b></div>
         </div>
       </section>
 
@@ -64,19 +64,19 @@ export default function Benchmark() {
         <div className="panel-head"><h3>Results</h3></div>
         <div className="table-wrap">
           <table>
-            <thead><tr><th>Metric</th><th className="r">Strong model only</th><th className="r">TokenSaver</th></tr></thead>
+            <thead><tr><th>Metric</th><th className="r">Strong model only</th><th className="r">Tokenomy</th></tr></thead>
             <tbody>
-              <tr><td>Model calls</td><td className="r mono">{r.baseline.calls.toLocaleString()}</td><td className="r mono">{r.tokensaver.calls.toLocaleString()}</td></tr>
-              <tr><td>Total cost</td><td className="r mono">{usd(r.baseline.cost_usd)}</td><td className="r mono">{usd(r.tokensaver.cost_usd)}</td></tr>
-              <tr><td>Average latency</td><td className="r mono">{ms(r.baseline.avg_latency_ms)}</td><td className="r mono">{ms(r.tokensaver.avg_latency_ms)}</td></tr>
-              <tr><td>Exact / smart cache hits</td><td className="r mono">—</td><td className="r mono">{r.tokensaver.exact_hits} / {r.tokensaver.semantic_hits}</td></tr>
-              <tr><td>Routed to cheap model</td><td className="r mono">—</td><td className="r mono">{pct(r.tokensaver.routed_cheap_pct)}</td></tr>
+              <tr><td>Model calls</td><td className="r mono">{r.baseline.calls.toLocaleString()}</td><td className="r mono">{r.tokenomy.calls.toLocaleString()}</td></tr>
+              <tr><td>Total cost</td><td className="r mono">{usd(r.baseline.cost_usd)}</td><td className="r mono">{usd(r.tokenomy.cost_usd)}</td></tr>
+              <tr><td>Average latency</td><td className="r mono">{ms(r.baseline.avg_latency_ms)}</td><td className="r mono">{ms(r.tokenomy.avg_latency_ms)}</td></tr>
+              <tr><td>Exact / smart cache hits</td><td className="r mono">—</td><td className="r mono">{r.tokenomy.exact_hits} / {r.tokenomy.semantic_hits}</td></tr>
+              <tr><td>Routed to cheap model</td><td className="r mono">—</td><td className="r mono">{pct(r.tokenomy.routed_cheap_pct)}</td></tr>
             </tbody>
           </table>
         </div>
         {projection && (
           <p className="note">If the same traffic used <b>{projection.strong}</b> as the strong model and <b>{projection.cheap}</b> as the cheap one,
-            cost would drop from <b>{usd(projection.baseline_usd)}</b> to <b>{usd(projection.tokensaver_usd)}</b> ({pct(projection.percent_saved)} saved). Same token counts, public list prices.</p>
+            cost would drop from <b>{usd(projection.baseline_usd)}</b> to <b>{usd(projection.tokenomy_usd)}</b> ({pct(projection.percent_saved)} saved). Same token counts, public list prices.</p>
         )}
       </section>
     </div>

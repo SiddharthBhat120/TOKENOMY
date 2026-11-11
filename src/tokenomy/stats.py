@@ -25,7 +25,7 @@ def totals(db: Database) -> dict:
         "requests": n,
         "errors": r["err"] or 0,
         "total_cost_usd": round(r["cost"], 8),
-        "cost_without_tokensaver_usd": round(r["base"], 8),
+        "cost_without_tokenomy_usd": round(r["base"], 8),
         "money_saved_usd": round(saved, 8),
         "percent_saved": round(100 * saved / r["base"], 2) if r["base"] else 0.0,
         "avg_latency_ms": round(r["lat"], 1),

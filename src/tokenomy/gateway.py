@@ -45,15 +45,15 @@ class Gateway:
             route_tier = decision.tier
             route_reason = "; ".join(decision.reasons)[:180]
             model_used = self.s.router_cheap_model if decision.tier == "easy" else self.s.router_strong_model
-            baseline_model = self.s.router_strong_model  # without TokenSaver everything goes to the strong model
+            baseline_model = self.s.router_strong_model  # without Tokenomy everything goes to the strong model
         else:
             model_used = baseline_model = requested
 
         cacheable = not skip_cache and is_cacheable(body, self.s.cache_max_temperature)
         key = cache_key(requested, body) if cacheable else None
-        base_headers = {"X-TokenSaver-Model": model_used}
+        base_headers = {"X-Tokenomy-Model": model_used}
         if route_tier:
-            base_headers["X-TokenSaver-Route"] = route_tier
+            base_headers["X-Tokenomy-Route"] = route_tier
 
         # 1) exact cache
         if key:
@@ -67,7 +67,7 @@ class Gateway:
         if use_semantic:
             sem = self.semantic.lookup(requested, messages)
             if sem is not None:
-                headers = {**base_headers, "X-TokenSaver-Similarity": f"{sem.similarity:.3f}"}
+                headers = {**base_headers, "X-Tokenomy-Similarity": f"{sem.similarity:.3f}"}
                 return self._finish(sem.response, requested, sem.response.get("_ts_model", model_used), baseline_model,
                                     "semantic_hit", t0, routed, route_tier, prompt, headers, cost_zero=True,
                                     extra={"similarity": round(sem.similarity, 4), "matched_prompt": sem.matched_prompt})
@@ -80,7 +80,7 @@ class Gateway:
             if routed and model_used != self.s.router_strong_model:
                 fallback = True
                 model_used = self.s.router_strong_model
-                base_headers["X-TokenSaver-Model"] = model_used
+                base_headers["X-Tokenomy-Model"] = model_used
                 try:
                     resp = await providers.chat(self.client, model_used, body, self.s)
                 except providers.UpstreamError as e2:
@@ -94,7 +94,7 @@ class Gateway:
             if use_semantic:
                 self.semantic.store(requested, messages, resp)
         if fallback:
-            base_headers["X-TokenSaver-Fallback"] = "true"
+            base_headers["X-Tokenomy-Fallback"] = "true"
         return self._finish(resp, requested, model_used, baseline_model, "miss", t0, routed, route_tier, prompt,
                             base_headers, extra={"route_reason": route_reason} if route_reason else None)
 
@@ -109,11 +109,11 @@ class Gateway:
         self.db.log_request(RequestLog(requested, model_used, pt, ct, cost, baseline, latency, status, routed, tier, prompt))
         out = {k: v for k, v in resp.items() if not k.startswith("_ts")}
         out["model"] = requested
-        out["x_tokensaver"] = {
+        out["x_tokenomy"] = {
             "cache_status": status, "model_used": model_used, "route": tier, "cost_usd": round(cost, 8),
-            "cost_without_tokensaver_usd": round(baseline, 8), "latency_ms": round(latency, 1), **(extra or {}),
+            "cost_without_tokenomy_usd": round(baseline, 8), "latency_ms": round(latency, 1), **(extra or {}),
         }
-        h = {**headers, "X-TokenSaver-Cache-Status": status, "X-TokenSaver-Cost-USD": f"{cost:.8f}"}
+        h = {**headers, "X-Tokenomy-Cache-Status": status, "X-Tokenomy-Cost-USD": f"{cost:.8f}"}
         return GatewayResult(out, 200, h)
 
     def _error(self, e: providers.UpstreamError, requested: str, model_used: str, t0: float, routed: bool,
@@ -121,4 +121,4 @@ class Gateway:
         latency = (time.perf_counter() - t0) * 1000
         self.db.log_request(RequestLog(requested, model_used, 0, 0, 0.0, 0.0, latency, "error", routed, tier, prompt, e.status))
         body = {"error": {"message": e.message, "type": "upstream_error", "provider": e.provider, "code": e.status}}
-        return GatewayResult(body, e.status, {"X-TokenSaver-Cache-Status": "error"})
+        return GatewayResult(body, e.status, {"X-Tokenomy-Cache-Status": "error"})

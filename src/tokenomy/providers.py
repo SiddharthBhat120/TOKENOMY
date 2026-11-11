@@ -40,8 +40,8 @@ def resolve(model: str, s: Settings) -> Target:
         model,
         {
             "Authorization": f"Bearer {s.openrouter_api_key}",
-            "HTTP-Referer": "https://github.com/SiddharthBhat120/tokensaver",
-            "X-Title": "TokenSaver",
+            "HTTP-Referer": "https://github.com/SiddharthBhat120/TOKENOMY",
+            "X-Title": "Tokenomy",
         },
     )
 
@@ -65,5 +65,5 @@ async def chat(client: httpx.AsyncClient, model: str, body: dict[str, Any], s: S
         status = r.status_code if r.status_code in (400, 401, 402, 403, 404, 408, 413, 422, 429) else 502
         raise UpstreamError(status, f"{target.provider}: {msg}", target.provider)
     data = r.json()
-    data["model"] = model  # report the TokenSaver model id back to the client
+    data["model"] = model  # report the Tokenomy model id back to the client
     return data

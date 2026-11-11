@@ -14,7 +14,7 @@ const SAMPLES = [
 
 export default function Playground({ config, onSent }) {
   const [prompt, setPrompt] = useState(SAMPLES[0][1])
-  const [model, setModel] = useState('tokensaver/auto')
+  const [model, setModel] = useState('tokenomy/auto')
   const [temperature, setTemperature] = useState(0)
   const [skip, setSkip] = useState(false)
   const [route, setRoute] = useState(null)
@@ -36,14 +36,14 @@ export default function Playground({ config, onSent }) {
     const t0 = performance.now()
     const res = await post('/v1/chat/completions',
       { model, temperature, max_tokens: 300, messages: [{ role: 'user', content: prompt }] },
-      skip ? { 'X-TokenSaver-Cache': 'skip' } : {})
+      skip ? { 'X-Tokenomy-Cache': 'skip' } : {})
     const wall = performance.now() - t0
     setHistory((h) => [{ id: Date.now(), prompt, res, wall }, ...h].slice(0, 12))
     setBusy(false)
     onSent?.()
   }
 
-  const models = ['tokensaver/auto', config?.cheap_model, config?.strong_model].filter(Boolean)
+  const models = ['tokenomy/auto', config?.cheap_model, config?.strong_model].filter(Boolean)
 
   return (
     <div className="page play">
@@ -74,7 +74,7 @@ export default function Playground({ config, onSent }) {
         {temperature > (config?.cache_max_temperature ?? 0.3) && (
           <p className="hint">Temperature above {config?.cache_max_temperature ?? 0.3} is never cached: the caller is asking for varied answers.</p>
         )}
-        {route && model === 'tokensaver/auto' && (
+        {route && model === 'tokenomy/auto' && (
           <div className={'route-card ' + route.tier}>
             <div>
               <span className="eyebrow">Router decision (live)</span>
@@ -90,7 +90,7 @@ export default function Playground({ config, onSent }) {
       <section className="results">
         {!history.length && <p className="dim center">Your answers appear here with cache status, model, cost and latency. Tip: send the FAQ, then the paraphrase, then the trap.</p>}
         {history.map(({ id, prompt, res, wall }) => {
-          const x = res.data.x_tokensaver || {}
+          const x = res.data.x_tokenomy || {}
           const answer = res.ok ? res.data.choices?.[0]?.message?.content : res.data.error?.message
           return (
             <article key={id} className={'answer ' + (res.ok ? '' : 'err')}>
@@ -103,7 +103,7 @@ export default function Playground({ config, onSent }) {
                   {x.similarity && <span className="chip mono">sim {x.similarity.toFixed(3)}</span>}
                   <span className="chip mono">{ms(x.latency_ms ?? wall)}</span>
                   {res.ok && <span className="chip mono">cost {usd(x.cost_usd)}</span>}
-                  {res.ok && x.cost_without_tokensaver_usd > x.cost_usd && <span className="chip mono mint">saved {usd(x.cost_without_tokensaver_usd - x.cost_usd)}</span>}
+                  {res.ok && x.cost_without_tokenomy_usd > x.cost_usd && <span className="chip mono mint">saved {usd(x.cost_without_tokenomy_usd - x.cost_usd)}</span>}
                 </div>
               </header>
               {x.matched_prompt && <p className="matched">Reused the answer to: “{x.matched_prompt}”</p>}

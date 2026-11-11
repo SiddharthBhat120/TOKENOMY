@@ -7,9 +7,9 @@ from fastapi.testclient import TestClient
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from tokensaver.app import create_app  # noqa: E402
-from tokensaver.config import Settings  # noqa: E402
-from tokensaver.embeddings import HashEmbedder  # noqa: E402
+from tokenomy.app import create_app  # noqa: E402
+from tokenomy.config import Settings  # noqa: E402
+from tokenomy.embeddings import HashEmbedder  # noqa: E402
 
 
 class FakeUpstream:

@@ -1,6 +1,6 @@
-"""Use TokenSaver with the official `openai` library: only base_url changes.
+"""Use Tokenomy with the official `openai` library: only base_url changes.
 
-    uvicorn tokensaver.app:app --port 8000      (in another terminal, from src/)
+    uvicorn tokenomy.app:app --port 8000      (in another terminal, from src/)
     python examples/client.py
 """
 from openai import OpenAI
@@ -16,12 +16,12 @@ questions = [
 
 for q in questions:
     raw = client.chat.completions.with_raw_response.create(
-        model="tokensaver/auto", temperature=0, max_tokens=120,
+        model="tokenomy/auto", temperature=0, max_tokens=120,
         messages=[{"role": "user", "content": q}],
     )
     resp = raw.parse()
     h = raw.headers
     print(f"\n> {q}")
-    print(f"  cache={h.get('x-tokensaver-cache-status')}  model={h.get('x-tokensaver-model')}  "
-          f"route={h.get('x-tokensaver-route')}  cost=${float(h.get('x-tokensaver-cost-usd', 0)):.8f}")
+    print(f"  cache={h.get('x-tokenomy-cache-status')}  model={h.get('x-tokenomy-model')}  "
+          f"route={h.get('x-tokenomy-route')}  cost=${float(h.get('x-tokenomy-cost-usd', 0)):.8f}")
     print("  " + resp.choices[0].message.content.strip().replace("\n", " ")[:160] + "…")

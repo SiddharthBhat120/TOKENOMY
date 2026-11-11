@@ -1,12 +1,12 @@
 # docker compose up  ->  dashboard at http://localhost:8000
 services:
-  tokensaver:
+  tokenomy:
     build: .
     ports: ["8000:8000"]
     env_file: [{ path: .env, required: false }]
     environment:
       OLLAMA_BASE_URL: http://ollama:11434/v1
-    volumes: [tokensaver-state:/app/state]
+    volumes: [tokenomy-state:/app/state]
     depends_on: [ollama]
 
   # free local models; pull them once with:
@@ -19,5 +19,5 @@ services:
     # deploy: { resources: { reservations: { devices: [{ driver: nvidia, count: all, capabilities: [gpu] }] } } }
 
 volumes:
-  tokensaver-state:
+  tokenomy-state:
   ollama-models:

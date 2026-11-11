@@ -10,8 +10,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from tokensaver.embeddings import MiniLMEmbedder  # noqa: E402
-from tokensaver.semantic import same_key_facts  # noqa: E402
+from tokenomy.embeddings import MiniLMEmbedder  # noqa: E402
+from tokenomy.semantic import same_key_facts  # noqa: E402
 
 PAIRS = [
     ("What's the capital of India?", "India's capital city?", "same"),

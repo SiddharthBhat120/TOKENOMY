@@ -1,10 +1,10 @@
-"""Benchmark: does TokenSaver cut cost without hurting answers?
+"""Benchmark: does Tokenomy cut cost without hurting answers?
 
     python benchmark/run.py            # full 1,000 prompts (needs Ollama + gemma3:4b + gemma3:12b)
     python benchmark/run.py --limit 40 # quick smoke test
 
 A) Baseline  = every prompt sent straight to the STRONG model (what a company does today).
-B) TokenSaver = every prompt sent to `tokensaver/auto` (exact cache + smart cache + router).
+B) Tokenomy = every prompt sent to `tokenomy/auto` (exact cache + smart cache + router).
 Quality = the strong model judges B's answer against A's on a random sample (blind, order shuffled).
 
 Note on A: at temperature 0 the same prompt gives the same answer and token count, so A is
@@ -28,9 +28,9 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from fastapi.testclient import TestClient  # noqa: E402
 
-from tokensaver.app import create_app  # noqa: E402
-from tokensaver.config import Settings  # noqa: E402
-from tokensaver.pricing import PriceBook  # noqa: E402
+from tokenomy.app import create_app  # noqa: E402
+from tokenomy.config import Settings  # noqa: E402
+from tokenomy.pricing import PriceBook  # noqa: E402
 
 RAW = HERE / "raw"
 MAX_TOKENS = 256
@@ -72,8 +72,8 @@ def run_baseline(s: Settings, prompts: list[dict]) -> dict[str, dict]:
     return done
 
 
-# ---------------------------------------------------------------- B: TokenSaver
-def run_tokensaver(s: Settings, prompts: list[dict]) -> list[dict]:
+# ---------------------------------------------------------------- B: Tokenomy
+def run_tokenomy(s: Settings, prompts: list[dict]) -> list[dict]:
     db = RAW / "bench.db"
     for ext in ("", "-wal", "-shm"):
         Path(str(db) + ext).unlink(missing_ok=True)
@@ -81,13 +81,13 @@ def run_tokensaver(s: Settings, prompts: list[dict]) -> list[dict]:
     s.upstream_timeout = 900
     out = []
     with TestClient(create_app(s)) as c:
-        print(f"[B] TokenSaver: router={c.get('/health').json()['router']}, {len(prompts)} prompts")
+        print(f"[B] Tokenomy: router={c.get('/health').json()['router']}, {len(prompts)} prompts")
         t_start = time.time()
         for i, p in enumerate(prompts, 1):
-            r = c.post("/v1/chat/completions", json={"model": "tokensaver/auto", "messages": messages(p),
+            r = c.post("/v1/chat/completions", json={"model": "tokenomy/auto", "messages": messages(p),
                                                        "temperature": 0, "max_tokens": MAX_TOKENS})
             data = r.json()
-            x = data.get("x_tokensaver", {})
+            x = data.get("x_tokenomy", {})
             usage = data.get("usage") or {}
             out.append({"id": p["id"], "text": p["text"], "kind": p["kind"], "status": x.get("cache_status", "error"),
                         "model_used": x.get("model_used"), "route": x.get("route"), "cost": x.get("cost_usd", 0.0),
@@ -99,7 +99,7 @@ def run_tokensaver(s: Settings, prompts: list[dict]) -> list[dict]:
                 hits = sum(o["status"] in ("exact_hit", "semantic_hit") for o in out)
                 print(f"    {i}/{len(prompts)}  hits {hits}  elapsed {time.time() - t_start:.0f}s")
         stats = c.get("/stats").json()
-    (RAW / "tokensaver.json").write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
+    (RAW / "tokenomy.json").write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
     print(f"    gateway stats: {stats['percent_saved']}% saved, hit rate {stats['cache_hit_rate']}%")
     return out
 
@@ -123,7 +123,7 @@ def judge(s: Settings, prompts: list[dict], base: dict[str, dict], ts: list[dict
     sample = rng.sample(ts, min(n, len(ts)))
     dist = {"better": 0, "same": 0, "worse": 0}
     details = []
-    print(f"[Q] judging {len(sample)} random TokenSaver answers with {s.router_strong_model}")
+    print(f"[Q] judging {len(sample)} random Tokenomy answers with {s.router_strong_model}")
     for i, row in enumerate(sample, 1):
         a = base[row["text"]]["answer"].strip()
         b = (row["answer"] or "").strip()
@@ -174,27 +174,27 @@ def summarize(s: Settings, prompts: list[dict], base: dict[str, dict], ts: list[
         "cheap_model": s.router_cheap_model, "strong_model": s.router_strong_model,
         "pricing_note": "OpenRouter list prices of the same open models",
         "baseline": {"calls": len(prompts), "cost_usd": round(a_cost, 6), "avg_latency_ms": round(a_lat, 1)},
-        "tokensaver": {"calls": len(calls), "cost_usd": round(b_cost, 6), "avg_latency_ms": round(sum(t["latency_ms"] for t in ts) / len(ts), 1),
+        "tokenomy": {"calls": len(calls), "cost_usd": round(b_cost, 6), "avg_latency_ms": round(sum(t["latency_ms"] for t in ts) / len(ts), 1),
                        "exact_hits": hits_exact, "semantic_hits": hits_sem,
                        "cache_hit_rate": round(100 * (hits_exact + hits_sem) / len(ts), 1),
                        "routed_cheap_pct": round(100 * routed_cheap / len(ts), 1),
                        "errors": sum(t["status"] == "error" for t in ts)},
         "percent_saved": round(100 * (a_cost - b_cost) / a_cost, 1) if a_cost else 0.0,
         "quality": quality,
-        "projection": {"strong": PROJ_STRONG, "cheap": PROJ_CHEAP, "baseline_usd": round(pa, 4), "tokensaver_usd": round(pb, 4),
+        "projection": {"strong": PROJ_STRONG, "cheap": PROJ_CHEAP, "baseline_usd": round(pa, 4), "tokenomy_usd": round(pb, 4),
                        "percent_saved": round(100 * (pa - pb) / pa, 1) if pa else 0.0},
     }
 
 
 def write_report(r: dict) -> None:
     (HERE / "results.json").write_text(json.dumps(r, indent=1), encoding="utf-8")
-    b, t, q, pj = r["baseline"], r["tokensaver"], r["quality"], r["projection"]
-    md = f"""# TokenSaver benchmark ({r['date']})
+    b, t, q, pj = r["baseline"], r["tokenomy"], r["quality"], r["projection"]
+    md = f"""# Tokenomy benchmark ({r['date']})
 
 **{r['prompts']:,} customer-support prompts** ({r['unique_prompts']} unique), cheap model `{r['cheap_model']}`, strong model `{r['strong_model']}`.
 Costs use {r['pricing_note']} (`data/pricing.json`).
 
-| Metric | Strong model only | TokenSaver |
+| Metric | Strong model only | Tokenomy |
 |---|---:|---:|
 | Model calls | {b['calls']:,} | {t['calls']:,} |
 | Total cost (USD) | ${b['cost_usd']:.6f} | ${t['cost_usd']:.6f} |
@@ -204,11 +204,11 @@ Costs use {r['pricing_note']} (`data/pricing.json`).
 | Routed to cheap model | — | {t['routed_cheap_pct']}% |
 | Errors | — | {t['errors']} |
 
-**Quality:** on a random sample of {q['sample']} answers, {q['judge']} judged **{q['equal_or_better_pct']}%** of TokenSaver's answers
+**Quality:** on a random sample of {q['sample']} answers, {q['judge']} judged **{q['equal_or_better_pct']}%** of Tokenomy's answers
 as good as or better than the strong model's ({q['distribution']}).
 
 **Projection:** the same token counts priced as `{pj['strong']}` (strong) and `{pj['cheap']}` (cheap):
-${pj['baseline_usd']:.4f} → ${pj['tokensaver_usd']:.4f} (**{pj['percent_saved']}% saved**).
+${pj['baseline_usd']:.4f} → ${pj['tokenomy_usd']:.4f} (**{pj['percent_saved']}% saved**).
 
 ![cost](cost.png) ![cache](cache.png) ![quality](quality.png)
 """
@@ -224,11 +224,11 @@ def charts(r: dict) -> None:
     plt.rcParams.update({"figure.facecolor": "#0b0f14", "axes.facecolor": "#121821", "text.color": "#e6ebf2",
                          "axes.labelcolor": "#e6ebf2", "xtick.color": "#8b95a7", "ytick.color": "#8b95a7", "axes.edgecolor": "#222a36"})
     fig, ax = plt.subplots(figsize=(5, 3.4))
-    ax.bar(["Strong only", "TokenSaver"], [r["baseline"]["cost_usd"], r["tokensaver"]["cost_usd"]], color=["#ffb547", "#3ddc97"])
+    ax.bar(["Strong only", "Tokenomy"], [r["baseline"]["cost_usd"], r["tokenomy"]["cost_usd"]], color=["#ffb547", "#3ddc97"])
     ax.set_title(f"Cost: {r['percent_saved']}% saved"); ax.set_ylabel("USD")
     fig.tight_layout(); fig.savefig(HERE / "cost.png", dpi=150); plt.close(fig)
 
-    t = r["tokensaver"]
+    t = r["tokenomy"]
     fig, ax = plt.subplots(figsize=(4.2, 3.4))
     vals = [t["exact_hits"], t["semantic_hits"], t["calls"]]
     ax.pie(vals, labels=["exact hit", "smart hit", "model call"], colors=["#3ddc97", "#5ab0ff", "#a78bfa"], autopct="%1.0f%%",
@@ -252,11 +252,11 @@ def main() -> None:
     s.router_mode = "classifier"
     prompts = load_prompts(args.limit)
     base = run_baseline(s, prompts)
-    ts = run_tokensaver(s, prompts)
+    ts = run_tokenomy(s, prompts)
     quality = judge(s, prompts, base, ts, args.judge)
     report = summarize(s, prompts, base, ts, quality)
     write_report(report)
-    print(json.dumps({k: report[k] for k in ("percent_saved", "baseline", "tokensaver", "quality", "projection")}, indent=1))
+    print(json.dumps({k: report[k] for k in ("percent_saved", "baseline", "tokenomy", "quality", "projection")}, indent=1))
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ RUN npm run build
 # ---- 2) Python gateway ----
 FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 \
-    HF_HOME=/app/.hf DB_PATH=/app/state/tokensaver.db
+    HF_HOME=/app/.hf DB_PATH=/app/state/tokenomy.db
 WORKDIR /app
 COPY requirements.txt .
 # CPU-only torch keeps the image ~1 GB instead of ~5 GB (embeddings are tiny)
@@ -23,4 +23,4 @@ RUN python -c "from sentence_transformers import SentenceTransformer as S; S('se
 RUN mkdir -p /app/state
 EXPOSE 8000
 HEALTHCHECK CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
-CMD ["uvicorn", "tokensaver.app:app", "--app-dir", "src", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "tokenomy.app:app", "--app-dir", "src", "--host", "0.0.0.0", "--port", "8000"]

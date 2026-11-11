@@ -15,7 +15,7 @@ export async function post(path, body, headers = {}) {
   })
   const data = await r.json().catch(() => ({}))
   const h = {}
-  r.headers.forEach((v, k) => { if (k.startsWith('x-tokensaver')) h[k] = v })
+  r.headers.forEach((v, k) => { if (k.startsWith('x-tokenomy')) h[k] = v })
   return { ok: r.ok, status: r.status, data, headers: h }
 }
 

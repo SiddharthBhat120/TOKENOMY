@@ -1,4 +1,4 @@
-/* TokenSaver — "ledger" dark UI. Mint = money saved, amber = money spent. */
+/* Tokenomy — "ledger" dark UI. Mint = money saved, amber = money spent. */
 :root {
   --bg: #0b0f14; --bg-2: #0f141b; --panel: #121821; --panel-2: #161d28; --line: #222a36; --line-2: #2c3644;
   --text: #e6ebf2; --muted: #8b95a7; --dim: #5f6a7d;

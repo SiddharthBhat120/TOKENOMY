@@ -42,11 +42,11 @@ def create_app(settings: Settings | None = None, embedder: Embedder | None = Non
         yield
         await client.aclose()
 
-    app = FastAPI(title="TokenSaver", version="1.0.0", lifespan=lifespan,
+    app = FastAPI(title="Tokenomy", version="1.0.0", lifespan=lifespan,
                   description="OpenAI-compatible LLM gateway that cuts AI cost with caching and smart routing.")
     app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"],
-                       expose_headers=["X-TokenSaver-Cache-Status", "X-TokenSaver-Model", "X-TokenSaver-Route",
-                                       "X-TokenSaver-Similarity", "X-TokenSaver-Cost-USD", "X-TokenSaver-Fallback"])
+                       expose_headers=["X-Tokenomy-Cache-Status", "X-Tokenomy-Model", "X-Tokenomy-Route",
+                                       "X-Tokenomy-Similarity", "X-Tokenomy-Cost-USD", "X-Tokenomy-Fallback"])
 
     @app.get("/health")
     async def health():
@@ -56,17 +56,17 @@ def create_app(settings: Settings | None = None, embedder: Embedder | None = Non
     @app.get("/v1/models")
     async def models():
         ids = [AUTO_MODEL, s.router_cheap_model, s.router_strong_model]
-        return {"object": "list", "data": [{"id": i, "object": "model", "owned_by": "tokensaver"} for i in ids]}
+        return {"object": "list", "data": [{"id": i, "object": "model", "owned_by": "tokenomy"} for i in ids]}
 
     @app.post("/v1/chat/completions")
-    async def chat_completions(request: Request, x_tokensaver_cache: str | None = Header(default=None)):
+    async def chat_completions(request: Request, x_tokenomy_cache: str | None = Header(default=None)):
         try:
             body = await request.json()
         except json.JSONDecodeError:
             return JSONResponse({"error": {"message": "Body must be JSON", "type": "invalid_request_error"}}, 400)
         if not isinstance(body.get("messages"), list) or not body["messages"]:
             return JSONResponse({"error": {"message": "'messages' must be a non-empty list", "type": "invalid_request_error"}}, 400)
-        skip = (x_tokensaver_cache or "").lower() == "skip"
+        skip = (x_tokenomy_cache or "").lower() == "skip"
         result = await state["gw"].handle(body, skip_cache=skip)
         if body.get("stream") and result.status == 200:
             return StreamingResponse(_as_sse(result.response), media_type="text/event-stream", headers=result.headers)
@@ -139,7 +139,7 @@ def _as_sse(resp: dict):
     """Serve a complete answer as an OpenAI-style stream so `stream=True` clients work too."""
     choice = (resp.get("choices") or [{}])[0]
     content = (choice.get("message") or {}).get("content") or ""
-    base = {"id": resp.get("id", "tokensaver"), "object": "chat.completion.chunk",
+    base = {"id": resp.get("id", "tokenomy"), "object": "chat.completion.chunk",
             "created": resp.get("created", int(time.time())), "model": resp.get("model")}
     chunk = 48
     first = True

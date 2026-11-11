@@ -24,10 +24,10 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -t tokensaver .
+      - run: docker build -t tokenomy .
       - name: Smoke test the image
         run: |
-          docker run -d --name ts -p 8000:8000 tokensaver
+          docker run -d --name ts -p 8000:8000 tokenomy
           for i in $(seq 1 30); do curl -sf localhost:8000/health && break; sleep 2; done
           curl -sf localhost:8000/health
-          curl -sf localhost:8000/dashboard/ | grep -q TokenSaver
+          curl -sf localhost:8000/dashboard/ | grep -q Tokenomy

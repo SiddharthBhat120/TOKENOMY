@@ -39,8 +39,8 @@ class Settings:
     router_mode: str = field(default_factory=lambda: _str("ROUTER_MODE", "classifier"))
     router_model_path: Path = field(default_factory=lambda: ROOT / "data" / "router_clf.joblib")
 
-    db_path: str = field(default_factory=lambda: _str("DB_PATH", str(ROOT / "tokensaver.db")))
+    db_path: str = field(default_factory=lambda: _str("DB_PATH", str(ROOT / "tokenomy.db")))
     pricing_path: Path = field(default_factory=lambda: ROOT / "data" / "pricing.json")
 
 
-AUTO_MODEL = "tokensaver/auto"
+AUTO_MODEL = "tokenomy/auto"

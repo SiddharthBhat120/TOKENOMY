@@ -2,9 +2,9 @@ import time
 
 from conftest import chat
 
-from tokensaver.cache import cache_key, is_cacheable
-from tokensaver.pricing import PriceBook
-from tokensaver.router import RuleScorer
+from tokenomy.cache import cache_key, is_cacheable
+from tokenomy.pricing import PriceBook
+from tokenomy.router import RuleScorer
 
 
 # ---------------- Phase 1: proxy ----------------
@@ -74,30 +74,30 @@ def test_stats_counts_requests_and_savings(client):
 def test_exact_cache_hit(client, upstream):
     a = client.post("/v1/chat/completions", json=chat())
     b = client.post("/v1/chat/completions", json=chat())
-    assert a.headers["X-TokenSaver-Cache-Status"] == "miss"
-    assert b.headers["X-TokenSaver-Cache-Status"] == "exact_hit"
-    assert b.json()["x_tokensaver"]["cost_usd"] == 0
+    assert a.headers["X-Tokenomy-Cache-Status"] == "miss"
+    assert b.headers["X-Tokenomy-Cache-Status"] == "exact_hit"
+    assert b.json()["x_tokenomy"]["cost_usd"] == 0
     assert len(upstream.calls) == 1
 
 
 def test_exact_cache_miss_on_different_prompt(client, upstream):
     client.post("/v1/chat/completions", json=chat(content="Translate hello to Hindi"))
     r = client.post("/v1/chat/completions", json=chat(content="Write a haiku about the monsoon in Mumbai"))
-    assert r.headers["X-TokenSaver-Cache-Status"] == "miss"
+    assert r.headers["X-Tokenomy-Cache-Status"] == "miss"
     assert len(upstream.calls) == 2
 
 
 def test_high_temperature_not_cached(client, upstream):
     client.post("/v1/chat/completions", json=chat(temperature=0.9))
     r = client.post("/v1/chat/completions", json=chat(temperature=0.9))
-    assert r.headers["X-TokenSaver-Cache-Status"] == "miss"
+    assert r.headers["X-Tokenomy-Cache-Status"] == "miss"
     assert len(upstream.calls) == 2
 
 
 def test_skip_header_bypasses_cache(client, upstream):
     client.post("/v1/chat/completions", json=chat())
-    r = client.post("/v1/chat/completions", json=chat(), headers={"X-TokenSaver-Cache": "skip"})
-    assert r.headers["X-TokenSaver-Cache-Status"] == "miss"
+    r = client.post("/v1/chat/completions", json=chat(), headers={"X-Tokenomy-Cache": "skip"})
+    assert r.headers["X-Tokenomy-Cache-Status"] == "miss"
     assert len(upstream.calls) == 2
 
 
@@ -106,7 +106,7 @@ def test_ttl_expiry(make_client, upstream):
         c.post("/v1/chat/completions", json=chat())
         time.sleep(1.2)
         r = c.post("/v1/chat/completions", json=chat())
-    assert r.headers["X-TokenSaver-Cache-Status"] == "miss"
+    assert r.headers["X-Tokenomy-Cache-Status"] == "miss"
 
 
 def test_key_ignores_whitespace_but_not_params():
@@ -122,8 +122,8 @@ def test_semantic_hit_on_paraphrase(client, upstream):
     client.post("/v1/chat/completions", json=chat(content="What is the capital of India?"))
     r = client.post("/v1/chat/completions", json=chat(content="what is the capital of india"))
     # exact key differs (case/punctuation) but meaning is the same
-    assert r.headers["X-TokenSaver-Cache-Status"] == "semantic_hit"
-    assert float(r.headers["X-TokenSaver-Similarity"]) >= 0.85
+    assert r.headers["X-Tokenomy-Cache-Status"] == "semantic_hit"
+    assert float(r.headers["X-Tokenomy-Similarity"]) >= 0.85
     assert len(upstream.calls) == 1
 
 
@@ -131,13 +131,13 @@ def test_semantic_threshold_protects_different_meaning(make_client, upstream):
     with make_client(semantic_threshold=0.99) as c:
         c.post("/v1/chat/completions", json=chat(content="cheap flights to Delhi from Mumbai"))
         r = c.post("/v1/chat/completions", json=chat(content="cheap flights from Delhi to Goa"))
-    assert r.headers["X-TokenSaver-Cache-Status"] == "miss"
+    assert r.headers["X-Tokenomy-Cache-Status"] == "miss"
 
 
 def test_semantic_scoped_by_model(client, upstream):
     client.post("/v1/chat/completions", json=chat(model="ollama/gemma3:12b"))
     r = client.post("/v1/chat/completions", json=chat(model="ollama/gemma3:4b", content="what is the capital of india"))
-    assert r.headers["X-TokenSaver-Cache-Status"] == "miss"
+    assert r.headers["X-Tokenomy-Cache-Status"] == "miss"
 
 
 def test_semantic_skips_long_conversations(client, upstream):
@@ -146,7 +146,7 @@ def test_semantic_skips_long_conversations(client, upstream):
     client.post("/v1/chat/completions", json={"model": "ollama/gemma3:12b", "messages": msgs, "temperature": 0})
     r = client.post("/v1/chat/completions", json={"model": "ollama/gemma3:12b", "temperature": 0,
                                                   "messages": msgs[:2] + [{"role": "user", "content": "capital of india?"}]})
-    assert r.headers["X-TokenSaver-Cache-Status"] == "miss"
+    assert r.headers["X-Tokenomy-Cache-Status"] == "miss"
 
 
 # ---------------- Phase 5: router ----------------
@@ -158,23 +158,23 @@ def test_rules_route_easy_and_hard():
 
 
 def test_auto_model_routes_and_reports(client, upstream):
-    easy = client.post("/v1/chat/completions", json=chat(model="tokensaver/auto", content="Translate hello to Hindi"))
-    hard = client.post("/v1/chat/completions", json=chat(model="tokensaver/auto",
+    easy = client.post("/v1/chat/completions", json=chat(model="tokenomy/auto", content="Translate hello to Hindi"))
+    hard = client.post("/v1/chat/completions", json=chat(model="tokenomy/auto",
                                                          content="Design a database schema and analyze trade-offs step by step"))
-    assert easy.headers["X-TokenSaver-Route"] == "easy"
-    assert easy.headers["X-TokenSaver-Model"] == "ollama/gemma3:4b"
-    assert hard.headers["X-TokenSaver-Model"] == "ollama/gemma3:12b"
+    assert easy.headers["X-Tokenomy-Route"] == "easy"
+    assert easy.headers["X-Tokenomy-Model"] == "ollama/gemma3:4b"
+    assert hard.headers["X-Tokenomy-Model"] == "ollama/gemma3:12b"
     # baseline for auto = strong model, so the easy request saved money
-    x = easy.json()["x_tokensaver"]
-    assert x["cost_without_tokensaver_usd"] > x["cost_usd"] > 0
+    x = easy.json()["x_tokenomy"]
+    assert x["cost_without_tokenomy_usd"] > x["cost_usd"] > 0
 
 
 def test_fallback_to_strong_when_cheap_fails(client, upstream):
     upstream.fail_models.add("gemma3:4b")
-    r = client.post("/v1/chat/completions", json=chat(model="tokensaver/auto", content="Translate hello to Hindi"))
+    r = client.post("/v1/chat/completions", json=chat(model="tokenomy/auto", content="Translate hello to Hindi"))
     assert r.status_code == 200
-    assert r.headers["X-TokenSaver-Fallback"] == "true"
-    assert r.headers["X-TokenSaver-Model"] == "ollama/gemma3:12b"
+    assert r.headers["X-Tokenomy-Fallback"] == "true"
+    assert r.headers["X-Tokenomy-Model"] == "ollama/gemma3:12b"
 
 
 # ---------------- Phase 6: dashboard endpoints ----------------
@@ -190,7 +190,7 @@ def test_dashboard_endpoints(client):
 
 # ---------------- key-facts guard (why threshold alone is not enough) ----------------
 def test_guard_blocks_look_alike_prompts():
-    from tokensaver.semantic import same_key_facts
+    from tokenomy.semantic import same_key_facts
     assert not same_key_facts("Flights to Delhi from Mumbai", "Flights from Delhi to Mumbai")  # cosine 0.99!
     assert not same_key_facts("Is the store open on Sunday?", "Is the store open on Monday?")
     assert not same_key_facts("Best laptop under 50000 rupees", "Best laptop under 80000 rupees")
@@ -200,7 +200,7 @@ def test_guard_blocks_look_alike_prompts():
 
 
 def test_guard_allows_real_paraphrases():
-    from tokensaver.semantic import same_key_facts
+    from tokenomy.semantic import same_key_facts
     assert same_key_facts("What's the capital of India?", "India's capital city?")
     assert same_key_facts("How do I reset my password?", "I forgot my password, how can I reset it?")
     assert same_key_facts("Can I cancel my order?", "Is it possible to cancel an order I placed?")
