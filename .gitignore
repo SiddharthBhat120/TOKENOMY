@@ -10,3 +10,5 @@ node_modules/
 dashboard/dist/
 .pytest_cache/
 benchmark/raw/
+*.db-shm
+*.db-wal
