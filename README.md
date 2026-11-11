@@ -1,6 +1,6 @@
 # Tokenomy
 
-**A drop-in gateway that cuts a company's AI bill: __PCT__% cheaper on a 1,000-prompt benchmark, with __QUAL__% of answers judged as good as the strong model's.**
+**A drop-in gateway that cuts a company's AI bill by answering repeats from a cache, reworded questions from a smart cache, and easy questions with a cheaper model.**
 
 Companies pay for every LLM request, but many requests are **repeats**, **paraphrases** or **easy questions** sent
 to an expensive model, and nobody can see where the money goes. Tokenomy sits between your app and the models
@@ -21,7 +21,6 @@ client = OpenAI(base_url="http://localhost:8000/v1", api_key="unused")   # ← t
 client.chat.completions.create(model="tokenomy/auto", messages=[{"role": "user", "content": "How do I reset my password?"}])
 ```
 
-![dashboard](docs/dashboard.png)
 
 ## Benchmark
 
@@ -29,7 +28,7 @@ client.chat.completions.create(model="tokenomy/auto", messages=[{"role": "user",
 70% FAQ questions with repeats and human paraphrases, 15% easy requests, 15% hard ones (planning, maths, code).
 **A** sends everything to the strong model (`gemma3:12b`); **B** sends everything to `tokenomy/auto`.
 
-__RESULTS_TABLE__
+> ⏳ The full 1,000-prompt benchmark is running on local models; the results table will be added here when it finishes.
 
 Prices are OpenRouter's public list prices for the same open models (`scripts/update_pricing.py`).
 Quality: `gemma3:12b` compares Tokenomy's answer with its own answer, blind and in random order, on a random sample.
