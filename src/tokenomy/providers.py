@@ -40,7 +40,7 @@ def resolve(model: str, s: Settings) -> Target:
         model,
         {
             "Authorization": f"Bearer {s.openrouter_api_key}",
-            "HTTP-Referer": "https://github.com/SiddharthBhat120/TOKENOMY",
+            "HTTP-Referer": "https://github.com/sidxcodes/TOKENOMY",
             "X-Title": "Tokenomy",
         },
     )

@@ -115,4 +115,4 @@ CI (GitHub Actions) runs the tests, builds the dashboard and builds + smoke-test
 - The quality judge is an LLM; a human review of the sample would make it stronger.
 - To scale: Redis for the exact cache, a vector DB for embeddings, async logging, many stateless workers.
 
-Built by [Siddharth Bhat](https://siddharthbhat120.github.io) · MIT licence
+Built by [Siddharth Bhat](https://sidxcodes.github.io) · MIT licence
