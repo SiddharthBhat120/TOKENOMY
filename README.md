@@ -53,7 +53,7 @@ flowchart LR
     L --> D[React dashboard]
 ```
 
-**Why these choices** (more in [`docs/INTERVIEW.md`](docs/INTERVIEW.md)):
+**Why these choices:**
 - **Only low-temperature requests are cached.** High temperature means "give me variety"; replaying one answer would break that.
 - **Similarity alone is not enough.** "Flights **to** Delhi **from** Mumbai" vs "flights **from** Delhi **to** Mumbai" scores **0.992**,
   higher than real paraphrases. A key-facts guard (numbers, days, names, to/from, opposite verbs) cut wrong hits from 2/8 to **0/8**
